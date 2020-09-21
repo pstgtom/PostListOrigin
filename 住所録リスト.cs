@@ -20,7 +20,7 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         //修正後のデータ受け取り配列変数
         住所氏名編集Form fs;
-
+        string conString = @"Server=fertila;Port=5432;Uid=kuchsakai;Pwd=9mei5jikai#;Database=test9meidb";
 
         public 住所録リストForm()
         {
@@ -35,10 +35,37 @@ namespace 口酒井農業水利組合郵送会員住所録
             ListView1呼出();
 
 
-            // 選択した領域の値をメモリー上に格納
-            差出人Box.Text = (string)Sender[1, 1];
-            差出人住所Box.Text = (string)Sender[1, 2];
+            using (var myCon = new NpgsqlConnection(conString))
+            {
+                myCon.Open();
+                var SQLstr = new NpgsqlCommand(@"SELECT * FROM sender", myCon);
 
+                NpgsqlDataReader dr = SQLstr.ExecuteReader();
+
+                int i;
+
+                try
+                {
+
+                    while (dr.Read())
+                    {
+                        for (i = 0; i < dr.FieldCount; i++)
+                        {
+                            Console.Write("{0} \t", dr[i]);
+                        }
+                        Console.WriteLine();
+                    }
+                }
+
+                finally
+                {
+                    myCon.Close();
+                }
+
+                //差出人Box.Text = dataReader(1);
+                //差出人住所Box.Text = dataReader[2];
+
+            }
 
             MessageBox.Show("定型長３封筒に印刷してください。");
 
@@ -64,13 +91,22 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             ListViewItem lvi;
 
-            for (int i = 2; i <= values.GetLength(0); i++)
+            using (var myCon = new NpgsqlConnection(conString))
             {
-                lvi = listView1.Items.Add((String)values[i, 1].ToString());
-                lvi.SubItems.Add((string)values[i, 2]);
-                lvi.SubItems.Add((string)values[i, 3]);
-                lvi.SubItems.Add((string)values[i, 4]);
-                lvi.SubItems.Add((string)values[i, 5]);
+                myCon.Open();
+                var SQLstr = new NpgsqlCommand(@"SELECT * FROM 郵送名簿", myCon);
+
+                var dataReader = SQLstr.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    lvi = listView1.Items.Add(dataReader[0].ToString());
+                    lvi.SubItems.Add(dataReader[1].ToString());
+                    lvi.SubItems.Add(dataReader[2].ToString());
+                    lvi.SubItems.Add(dataReader[3].ToString());
+                    lvi.SubItems.Add(dataReader[4].ToString());
+                }
+
             }
 
         }
@@ -104,24 +140,24 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 印刷対象選択(string 分類)
         {
-            string 氏名, 郵便番号, 住所;
+            //string 氏名, 郵便番号, 住所;
 
-            object[,] values = TableRange.Value;
+            //object[,] values = TableRange.Value;
 
 
-            for (int i = 2; i <= values.GetLength(0); i++)
-            {
-                string セル値 = (String)values[i, 5];
+            //for (int i = 2; i <= values.GetLength(0); i++)
+            //{
+            //    string セル値 = (String)values[i, 5];
 
-                if (セル値 == 分類 || 分類 == "全件")
-                {
-                    氏名 = (String)values[i, 2];
-                    郵便番号 = (String)values[i, 3];
-                    住所 = (String)values[i, 4];
+            //    if (セル値 == 分類 || 分類 == "全件")
+            //    {
+            //        氏名 = (String)values[i, 2];
+            //        郵便番号 = (String)values[i, 3];
+            //        住所 = (String)values[i, 4];
 
-                    宛名印刷(氏名, 郵便番号, 住所);
-                }
-            }
+            //        宛名印刷(氏名, 郵便番号, 住所);
+            //    }
+            //}
 
         }
 
