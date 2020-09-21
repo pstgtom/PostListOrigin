@@ -37,7 +37,7 @@ namespace 口酒井農業水利組合郵送会員住所録
             //NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchsakai;Pwd=9mei5jikai#;Database=test9meidb");
             myCon.Open();
 
-            NpgsqlCommand SQLstr = new NpgsqlCommand("SELECT * FROM sender", myCon);
+            NpgsqlCommand SQLstr = new NpgsqlCommand("SELECT 差出人氏名, 差出人住所 FROM sender", myCon);
 
             NpgsqlDataReader dr = SQLstr.ExecuteReader();
 
@@ -45,24 +45,15 @@ namespace 口酒井農業水利組合郵送会員住所録
 
                 try
                 {
-
-                    while (dr.Read())
-                    {
-                        for (i = 0; i < dr.FieldCount; i++)
-                        {
-                            Console.Write("{0} \t", dr[i]);
-                        }
-                        Console.WriteLine();
-                    }
+                dr.Read();
+                差出人Box.Text = dr.GetValue(0).ToString();
+                差出人住所Box.Text = dr.GetValue(1).ToString();
                 }
-
                 finally
                 {
                     myCon.Close();
                 }
 
-                //差出人Box.Text = dataReader(1);
-                //差出人住所Box.Text = dataReader[2];
 
             MessageBox.Show("定型長３封筒に印刷してください。");
 
@@ -100,16 +91,11 @@ namespace 口酒井農業水利組合郵送会員住所録
 
                 while (dr.Read())
                 {
-                    for (i = 0; i < dr.FieldCount; i++)
-                        {
-                            Console.Write("{0} \t", dr[i]);
-                        }
-                        Console.WriteLine();
-                //    lvi = listView1.Items.Add(dr[i].ToString());
-                //    lvi.SubItems.Add(dr[1].ToString());
-                //    lvi.SubItems.Add(dr[2].ToString());
-                //    lvi.SubItems.Add(dr[3].ToString());
-                //    lvi.SubItems.Add(dr[4].ToString());
+                        lvi = listView1.Items.Add(dr[0].ToString());
+                        lvi.SubItems.Add(dr[1].ToString());
+                        lvi.SubItems.Add(dr[2].ToString()); 
+                        lvi.SubItems.Add(dr[3].ToString());
+                        lvi.SubItems.Add(dr[4].ToString());
                 }
             }
             finally
