@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "口酒井農業水利組合郵送会員住所録", "口酒井農業水利組合郵送会員住所録.csproj", "{D45D3169-1DB8-49CE-9C60-2F215F1CC977}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D45D3169-1DB8-49CE-9C60-2F215F1CC977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D45D3169-1DB8-49CE-9C60-2F215F1CC977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D45D3169-1DB8-49CE-9C60-2F215F1CC977}.Debug|x64.ActiveCfg = Debug|x64
+		{D45D3169-1DB8-49CE-9C60-2F215F1CC977}.Debug|x64.Build.0 = Debug|x64
+		{D45D3169-1DB8-49CE-9C60-2F215F1CC977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D45D3169-1DB8-49CE-9C60-2F215F1CC977}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D45D3169-1DB8-49CE-9C60-2F215F1CC977}.Release|x64.ActiveCfg = Release|x64
+		{D45D3169-1DB8-49CE-9C60-2F215F1CC977}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2A59359-94A2-40BB-91EF-B63EF9C9CAE3}
+	EndGlobalSection
+EndGlobal
