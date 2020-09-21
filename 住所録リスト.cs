@@ -20,7 +20,7 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         //修正後のデータ受け取り配列変数
         住所氏名編集Form fs;
-        string conString = @"Server=fertila;Port=5432;Uid=kuchsakai;Pwd=9mei5jikai#;Database=test9meidb";
+        NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchsakai;Pwd=9mei5jikai#;Database=test9meidb");
 
         public 住所録リストForm()
         {
@@ -34,13 +34,12 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             ListView1呼出();
 
+            //NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchsakai;Pwd=9mei5jikai#;Database=test9meidb");
+            myCon.Open();
 
-            using (var myCon = new NpgsqlConnection(conString))
-            {
-                myCon.Open();
-                var SQLstr = new NpgsqlCommand(@"SELECT * FROM sender", myCon);
+            NpgsqlCommand SQLstr = new NpgsqlCommand("SELECT * FROM sender", myCon);
 
-                NpgsqlDataReader dr = SQLstr.ExecuteReader();
+            NpgsqlDataReader dr = SQLstr.ExecuteReader();
 
                 int i;
 
@@ -64,8 +63,6 @@ namespace 口酒井農業水利組合郵送会員住所録
 
                 //差出人Box.Text = dataReader(1);
                 //差出人住所Box.Text = dataReader[2];
-
-            }
 
             MessageBox.Show("定型長３封筒に印刷してください。");
 
@@ -91,27 +88,36 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             ListViewItem lvi;
 
-            using (var myCon = new NpgsqlConnection(conString))
+            myCon.Open();
+
+            try
             {
-                myCon.Open();
-                var SQLstr = new NpgsqlCommand(@"SELECT * FROM 郵送名簿", myCon);
+                NpgsqlCommand SQLstr = new NpgsqlCommand("SELECT * FROM 郵送名簿", myCon);
 
-                var dataReader = SQLstr.ExecuteReader();
+                NpgsqlDataReader dr = SQLstr.ExecuteReader();
 
-                while (dataReader.Read())
+                int i;
+
+                while (dr.Read())
                 {
-                    lvi = listView1.Items.Add(dataReader[0].ToString());
-                    lvi.SubItems.Add(dataReader[1].ToString());
-                    lvi.SubItems.Add(dataReader[2].ToString());
-                    lvi.SubItems.Add(dataReader[3].ToString());
-                    lvi.SubItems.Add(dataReader[4].ToString());
+                    for (i = 0; i < dr.FieldCount; i++)
+                        {
+                            Console.Write("{0} \t", dr[i]);
+                        }
+                        Console.WriteLine();
+                //    lvi = listView1.Items.Add(dr[i].ToString());
+                //    lvi.SubItems.Add(dr[1].ToString());
+                //    lvi.SubItems.Add(dr[2].ToString());
+                //    lvi.SubItems.Add(dr[3].ToString());
+                //    lvi.SubItems.Add(dr[4].ToString());
                 }
-
+            }
+            finally
+            {
+                myCon.Close();
             }
 
         }
-
-
 
 
         private void 全件印刷btn_Click(object sender, EventArgs e)
