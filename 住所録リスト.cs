@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
@@ -36,18 +37,18 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             //NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchsakai;Pwd=9mei5jikai#;Database=test9meidb");
             myCon.Open();
+            string SQLstr = "SELECT 差出人氏名, 差出人住所 FROM sender";
+            NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
 
-            NpgsqlCommand SQLstr = new NpgsqlCommand("SELECT 差出人氏名, 差出人住所 FROM sender", myCon);
-
-            NpgsqlDataReader dr = SQLstr.ExecuteReader();
+            NpgsqlDataReader dr = command.ExecuteReader();
 
                 int i;
 
                 try
                 { 
-                dr.Read();
-                差出人Box.Text = dr.GetValue(0).ToString();
-                差出人住所Box.Text = dr.GetValue(1).ToString();
+                    dr.Read();
+                    差出人Box.Text = dr.GetValue(0).ToString();
+                    差出人住所Box.Text = dr.GetValue(1).ToString();
                 }
                 finally
                 {
@@ -83,11 +84,9 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             try
             {
-                NpgsqlCommand SQLstr = new NpgsqlCommand("SELECT * FROM 郵送名簿", myCon);
-
-                NpgsqlDataReader dr = SQLstr.ExecuteReader();
-
-                int i;
+                string SQLstr = "SELECT * FROM 郵送名簿";
+                NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
+                NpgsqlDataReader dr = command.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -113,13 +112,13 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 入作関係btn_Click(object sender, EventArgs e)
         {
-            印刷対象選択("入作関係");
+            印刷対象選択("入作");
 
         }
 
         private void 企業協力金btn_Click(object sender, EventArgs e)
         {
-            印刷対象選択("企業協力金");
+            印刷対象選択("企業（振込）");
 
         }
 
@@ -132,24 +131,37 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 印刷対象選択(string 分類)
         {
-            //string 氏名, 郵便番号, 住所;
+            string 氏名, 郵便番号, 住所, SQLstr;
 
-            //object[,] values = TableRange.Value;
+            myCon.Open();
 
+            try
+            {
+                if (分類 == "全件")
+                {
+                    SQLstr = "SELECT * FROM 郵送名簿";
+                }
+                else
+                {
+                    SQLstr = "SELECT * FROM 郵送名簿 WHERE 分類 = '" + 分類 + "'";
+                }
 
-            //for (int i = 2; i <= values.GetLength(0); i++)
-            //{
-            //    string セル値 = (String)values[i, 5];
+                NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
+                NpgsqlDataReader dr = command.ExecuteReader();
 
-            //    if (セル値 == 分類 || 分類 == "全件")
-            //    {
-            //        氏名 = (String)values[i, 2];
-            //        郵便番号 = (String)values[i, 3];
-            //        住所 = (String)values[i, 4];
+                while (dr.Read())
+                {
+                    氏名 = dr[2].ToString();
+                    郵便番号 = dr[3].ToString();
+                    住所 = dr[4].ToString();
 
-            //        宛名印刷(氏名, 郵便番号, 住所);
-            //    }
-            //}
+                    宛名印刷(氏名, 郵便番号, 住所);
+                }
+
+            }
+            finally {
+                myCon.Close();
+            }
 
         }
 
@@ -288,9 +300,20 @@ namespace 口酒井農業水利組合郵送会員住所録
         private void 差出人変更btn_Click(object sender, EventArgs e)
         {
 
+            string 差出人氏名, 差出人住所;
+
+            差出人氏名 = 差出人Box.Text;
+            差出人住所 = 差出人住所Box.Text;
+
+            myCon.Open();
+
+            string SQLstr = "UPDATE sender SET 差出人氏名 = '" + 差出人氏名 + "'," +
+                                           　 "差出人住所 = '" + 差出人住所 + "'";
+
+            NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
+            command.ExecuteNonQuery();
 
             MessageBox.Show("変更を保存しました");
-
 
         }
 
