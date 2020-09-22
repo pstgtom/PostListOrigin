@@ -16,6 +16,8 @@ namespace 口酒井農業水利組合郵送会員住所録
     {
         private string[] Values;
         public 住所録リストForm formMain;
+        NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
+
 
         public 住所氏名編集Form()
         {
@@ -28,10 +30,10 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 分類セット()
         {
-            分類combo.Items.Add("入作関係");
-            分類combo.Items.Add("企業協力金");
+            分類combo.Items.Add("入作");
+            分類combo.Items.Add("企業（振込）");
             分類combo.Items.Add("墓地管理");
-            分類combo.Text = "入作関係";
+            分類combo.Text = "入作";
         }
 
         private void ValuesAttach()
