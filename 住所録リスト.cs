@@ -44,7 +44,7 @@ namespace 口酒井農業水利組合郵送会員住所録
                 int i;
 
                 try
-                {
+                { 
                 dr.Read();
                 差出人Box.Text = dr.GetValue(0).ToString();
                 差出人住所Box.Text = dr.GetValue(1).ToString();
