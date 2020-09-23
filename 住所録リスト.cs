@@ -315,7 +315,7 @@ namespace 口酒井農業水利組合郵送会員住所録
             NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
             command.ExecuteNonQuery();
 
-            var ans = MessageBox.Show("差出人の住所、氏名を変更して良いですか？");
+            var ans = MessageBox.Show("差出人の住所、氏名を変更して良いですか？", "差出人の住所、氏名を変更",MessageBoxButtons.YesNo);
 
             switch (ans)
             {

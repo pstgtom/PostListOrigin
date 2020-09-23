@@ -80,6 +80,16 @@ namespace 口酒井農業水利組合郵送会員住所録
                 return;
             }
 
+            var ans = MessageBox.Show("新規に郵送メンバーを追加して良いですか？"
+                                        ,"郵送メンバーの新規追加"
+                                        , MessageBoxButtons.YesNo
+                                        ,MessageBoxIcon.Question);
+            switch (ans)
+            {
+                case DialogResult.No:
+                    MessageBox.Show("中止します。");
+                    break;
+            }
 
             ValuesAttach();
 
@@ -103,6 +113,17 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 修正btn_Click(object sender, EventArgs e)
         {
+            var ans = MessageBox.Show("修正して良いですか？"
+                            , "修正"
+                            , MessageBoxButtons.YesNo
+                            , MessageBoxIcon.Question);
+            switch (ans)
+            {
+                case DialogResult.No:
+                    MessageBox.Show("中止します。");
+                    break;
+            }
+
 
             ValuesAttach();
 
@@ -153,14 +174,29 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             //        口酒井名簿.range[i +":" + i].Delete(-4162);
 
+
             ValuesAttach();
 
             myCon.Open();
+            myCon.BeginTransaction();
+
             string SQLstr = "FELETE FROM owner WHERE id = " + int.Parse(Values[0]);
             NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
             command.ExecuteNonQuery();
 
+            var ans = MessageBox.Show("修正して良いですか？"
+                , "修正"
+                , MessageBoxButtons.YesNo
+                , MessageBoxIcon.Question);
+            switch (ans)
+            {
+                case DialogResult.No:
+                    MessageBox.Show("中止します。");
+                    myCon.BeginTransaction().Rollback();
+                    break;
+            }
 
+            myCon.BeginTransaction().Commit();
             MessageBox.Show("削除しました");
 
             formMain.Lvflag = "削除";
