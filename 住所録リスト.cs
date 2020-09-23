@@ -306,7 +306,7 @@ namespace 口酒井農業水利組合郵送会員住所録
             差出人住所 = 差出人住所Box.Text;
 
             myCon.Open();
-            myCon.BeginTransaction();
+            var transa = myCon.BeginTransaction();
 
             string SQLstr = "UPDATE sender SET 差出人氏名 = '" + 差出人氏名 + "'," +
                                            　 "差出人住所 = '" + 差出人住所 + "'";
@@ -321,16 +321,12 @@ namespace 口酒井農業水利組合郵送会員住所録
             {
                 case DialogResult.No:
                     MessageBox.Show("中止します。");
-                    myCon.BeginTransaction().Rollback();
-                    break;
-                case DialogResult.Yes:
-                    myCon.BeginTransaction().Commit();
-                    MessageBox.Show("変更しました。");
+                    transa.Rollback();
                     break;
             }
 
 
-            MessageBox.Show("変更を保存しました");
+            MessageBox.Show("変更しました");
 
         }
 
@@ -400,7 +396,7 @@ namespace 口酒井農業水利組合郵送会員住所録
             Lvflag = "";
             fs.Close();
 
-            }
+        }
 
         private string リストビュー更新;
 

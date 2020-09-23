@@ -128,10 +128,10 @@ namespace 口酒井農業水利組合郵送会員住所録
             ValuesAttach();
 
             myCon.Open();
-            string SQLstr = "UPDATE owner SET 所有者 ='" + Values[1] + " , " +
+            string SQLstr = "UPDATE owner SET 所有者 ='" + Values[1] + "', " +
                                              "住所 = '" + Values[3] + "', " + 
-                                             "郵便番号 = '" + Values[2] + ", " +
-                                             "区分id) = (SELECT id FROM trait WHERE 区分 = '" + Values[4] + "'))" +
+                                             "郵便番号 = '" + Values[2] + "', " +
+                                             "区分id = (SELECT id FROM trait WHERE 区分 = '" + Values[4] + "')" +
                                         "WHERE id = " + int.Parse(Values[0]); 
 
             NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
@@ -146,45 +146,16 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 削除btn_Click(object sender, EventArgs e)
         {
-            //for (int i = 2; i <= values.GetLength(0); i++)
-            //{
-            //    double セル値 = (double)values[i, 1];
-
-            //    if (セル値 == double.Parse(Values[0]))
-            //    {
-            //        DialogResult result = MessageBox.Show("ID　"+ (String)Values[0] + "\n"
-            //            + "氏名　" + (String)Values[1] + "\n"   //氏名
-            //            + "郵便番号　" + (String)Values[2] + "\n"   //郵便番号
-            //            + "住所　" + (String)Values[3] + "\n"
-            //            + "分類　" + (String)Values[4] + "\n"
-            //            + "さんのアドレスを削除して良いですか？"
-            //            , "アドレス削除の確認"
-            //            , MessageBoxButtons.OKCancel
-            //            , MessageBoxIcon.Question
-            //            , MessageBoxDefaultButton.Button2);
-
-            //        if (result == DialogResult.Cancel)
-            //        {
-            //            MessageBox.Show("削除を中止します。");
-
-            //            this.Close();
-
-            //            return;
-            //        }
-
-            //        口酒井名簿.range[i +":" + i].Delete(-4162);
-
-
             ValuesAttach();
 
             myCon.Open();
-            myCon.BeginTransaction();
+            var transa = myCon.BeginTransaction();
 
-            string SQLstr = "FELETE FROM owner WHERE id = " + int.Parse(Values[0]);
+            string SQLstr = "DELETE FROM owner WHERE id = " + int.Parse(Values[0]);
             NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
             command.ExecuteNonQuery();
 
-            var ans = MessageBox.Show("修正して良いですか？"
+            var ans = MessageBox.Show("削除して良いですか？"
                 , "修正"
                 , MessageBoxButtons.YesNo
                 , MessageBoxIcon.Question);
@@ -192,11 +163,11 @@ namespace 口酒井農業水利組合郵送会員住所録
             {
                 case DialogResult.No:
                     MessageBox.Show("中止します。");
-                    myCon.BeginTransaction().Rollback();
+                    transa.Rollback();
                     break;
             }
 
-            myCon.BeginTransaction().Commit();
+            transa.Commit();
             MessageBox.Show("削除しました");
 
             formMain.Lvflag = "削除";
