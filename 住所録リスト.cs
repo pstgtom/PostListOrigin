@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,11 @@ namespace 口酒井農業水利組合郵送会員住所録
         //修正後のデータ受け取り配列変数
         住所氏名編集Form fs;
         NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
+
+        public string 水利関係住所録WB = (@"C:\dropbox\住所録\水利関係住所録.xlsx");
+        public dynamic xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
+        public dynamic xlBooks;
+        public dynamic xlBook;
 
         public 住所録リストForm()
         {
@@ -139,11 +145,11 @@ namespace 口酒井農業水利組合郵送会員住所録
             {
                 if (分類 == "全件")
                 {
-                    SQLstr = "SELECT * FROM 郵送名簿";
+                    SQLstr = "SELECT 氏名,郵便番号,住所 FROM 郵送名簿";
                 }
                 else
                 {
-                    SQLstr = "SELECT * FROM 郵送名簿 WHERE 分類 = '" + 分類 + "'";
+                    SQLstr = "SELECT 氏名,郵便番号,住所 FROM 郵送名簿 WHERE 分類 = '" + 分類 + "'";
                 }
 
                 NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
@@ -151,9 +157,9 @@ namespace 口酒井農業水利組合郵送会員住所録
 
                 while (dr.Read())
                 {
-                    氏名 = dr[2].ToString();
-                    郵便番号 = dr[3].ToString();
-                    住所 = dr[4].ToString();
+                    氏名 = dr[0].ToString();
+                    郵便番号 = dr[1].ToString();
+                    住所 = dr[2].ToString();
 
                     宛名印刷(氏名, 郵便番号, 住所);
                 }
@@ -202,63 +208,10 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 初期化()
         {
-
-            string 水利関係住所録WB = (@"C:\dropbox\住所録\水利関係住所録.xlsx");
-
-            dynamic xlApp;
-            dynamic xlBooks;
-            dynamic xlBook;
-
-            //住所録呼出
-            //xlApp = new Excel.Application();
-            xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
             xlBooks = xlApp.Workbooks;
             xlBook = xlBooks.Open(水利関係住所録WB);
 
-
-            ////シートを選択
             var 宛名面 = xlBook.Sheets["宛名面"];
-
-
-            //宛名面.Shapes(1).Name = "宛先郵便番号";
-            //宛名面.Shapes(2).Name = "宛先住所";
-            //宛名面.Shapes(3).Name = "宛先氏名1";
-            //宛名面.Shapes(4).Name = "宛先氏名2";
-            //宛名面.Shapes(5).Name = "差出人氏名";
-            //宛名面.Shapes(6).Name = "差出人住所";
-
-
-            //宛名面.Shapes("宛先郵便番号").TextFrame.Characters.Text = "";      //宛先郵便番号
-            //宛名面.Shapes("宛先住所").TextFrame.Characters.Text = "";          //宛先住所
-            //宛名面.Shapes("宛先氏名1").TextFrame.Characters.Text = "";         //宛先氏名1
-            //宛名面.Shapes("宛先氏名2").TextFrame.Characters.Text = "";         //宛先氏名2
-            //宛名面.Shapes("差出人氏名").TextFrame.Characters.Text = "";       //差出人氏名
-            //宛名面.Shapes("差出人住所").TextFrame.Characters.Text = "";       //差出人住所
-
-
-        }
-
-
-        private void 宛名印刷(string 氏名, string 郵便番号, string 住所)
-        {
-
-            string 水利関係住所録WB = (@"C:\dropbox\住所録\水利関係住所録.xlsx");
-
-            dynamic xlApp;
-            dynamic xlBooks;
-            dynamic xlBook;
-
-            //住所録呼出
-            //xlApp = new Excel.Application();
-            xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
-            xlBooks = xlApp.Workbooks;
-            xlBook = xlBooks.Open(水利関係住所録WB);
-
-
-            ////シートを選択
-            var 宛名面 = xlBook.Sheets["宛名面"];
-
-            //初期化();
 
             宛名面.Shapes(1).Name = "宛先郵便番号";
             宛名面.Shapes(2).Name = "宛先住所";
@@ -267,13 +220,33 @@ namespace 口酒井農業水利組合郵送会員住所録
             宛名面.Shapes(5).Name = "差出人氏名";
             宛名面.Shapes(6).Name = "差出人住所";
 
+
             宛名面.Shapes("宛先郵便番号").TextFrame.Characters.Text = "";      //宛先郵便番号
             宛名面.Shapes("宛先住所").TextFrame.Characters.Text = "";          //宛先住所
             宛名面.Shapes("宛先氏名1").TextFrame.Characters.Text = "";         //宛先氏名1
             宛名面.Shapes("宛先氏名2").TextFrame.Characters.Text = "";         //宛先氏名2
             宛名面.Shapes("差出人氏名").TextFrame.Characters.Text = "";       //差出人氏名
             宛名面.Shapes("差出人住所").TextFrame.Characters.Text = "";       //差出人住所
+        }
 
+
+        private void 宛名印刷(string 氏名, string 郵便番号, string 住所)
+        {
+
+            //住所録呼出
+            //xlApp = new Excel.Application();
+            //xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
+            xlBooks = xlApp.Workbooks;
+            xlBook = xlBooks.Open(水利関係住所録WB);
+
+
+            ////シートを選択
+            var 宛名面 = xlBook.Sheets["宛名面"];
+
+            初期化();
+
+            try
+            {
 
             //郵便番号がnullの場合、0000でnull合体演算をする
             string fourZeros = "000-0000";
@@ -341,6 +314,21 @@ namespace 口酒井農業水利組合郵送会員住所録
             宛名面.Shapes("差出人住所").TextFrame.Characters.Text = 差出人住所;       //差出人住所
 
             dynamic printOut = 宛名面.Range["A1:D32"].PrintOut;
+            }
+            finally
+            {
+                //Excelのクローズ
+                xlBook.Saved = true;
+                xlBook.Close();
+                xlBooks.Close();
+                xlApp.Quit();
+
+                //// 使用したCOMオブジェクトを解放その２
+                System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlBook);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlBooks);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlApp);
+
+            }
 
         }
 
@@ -420,9 +408,19 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 住所録リストForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            ////Excelのクローズ
+            //xlBook.Saved = true;
+            //xlBook.Close();
+            //xlBooks.Close();
+            //xlApp.Quit();
+
+            ////// 使用したCOMオブジェクトを解放その２
+            //System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlBook);
+            //System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlBooks);
+            //System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlApp);
         }
 
- 
+
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             一軒編集btn_Click(sender, e);
