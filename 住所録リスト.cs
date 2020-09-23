@@ -25,7 +25,7 @@ namespace 口酒井農業水利組合郵送会員住所録
         NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
 
         public string 水利関係住所録WB = (@"C:\dropbox\住所録\水利関係住所録.xlsx");
-        public dynamic xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
+        public dynamic xlApp;
         public dynamic xlBooks;
         public dynamic xlBook;
 
@@ -208,8 +208,8 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 初期化()
         {
-            xlBooks = xlApp.Workbooks;
-            xlBook = xlBooks.Open(水利関係住所録WB);
+            //xlBooks = xlApp.Workbooks;
+            //xlBook = xlBooks.Open(水利関係住所録WB);
 
             var 宛名面 = xlBook.Sheets["宛名面"];
 
@@ -234,8 +234,7 @@ namespace 口酒井農業水利組合郵送会員住所録
         {
 
             //住所録呼出
-            //xlApp = new Excel.Application();
-            //xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
+            xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
             xlBooks = xlApp.Workbooks;
             xlBook = xlBooks.Open(水利関係住所録WB);
 
@@ -244,7 +243,21 @@ namespace 口酒井農業水利組合郵送会員住所録
             var 宛名面 = xlBook.Sheets["宛名面"];
 
             初期化();
+            //宛名面.Shapes(1).Name = "宛先郵便番号";
+            //宛名面.Shapes(2).Name = "宛先住所";
+            //宛名面.Shapes(3).Name = "宛先氏名1";
+            //宛名面.Shapes(4).Name = "宛先氏名2";
+            //宛名面.Shapes(5).Name = "差出人氏名";
+            //宛名面.Shapes(6).Name = "差出人住所";
 
+
+            //宛名面.Shapes("宛先郵便番号").TextFrame.Characters.Text = "";      //宛先郵便番号
+            //宛名面.Shapes("宛先住所").TextFrame.Characters.Text = "";          //宛先住所
+            //宛名面.Shapes("宛先氏名1").TextFrame.Characters.Text = "";         //宛先氏名1
+            //宛名面.Shapes("宛先氏名2").TextFrame.Characters.Text = "";         //宛先氏名2
+            //宛名面.Shapes("差出人氏名").TextFrame.Characters.Text = "";       //差出人氏名
+            //宛名面.Shapes("差出人住所").TextFrame.Characters.Text = "";       //差出人住所
+            
             try
             {
 
