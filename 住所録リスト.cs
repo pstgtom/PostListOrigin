@@ -203,6 +203,23 @@ namespace 口酒井農業水利組合郵送会員住所録
         private void 初期化()
         {
 
+            string 水利関係住所録WB = (@"C:\dropbox\住所録\水利関係住所録.xlsx");
+
+            dynamic xlApp;
+            dynamic xlBooks;
+            dynamic xlBook;
+
+            //住所録呼出
+            //xlApp = new Excel.Application();
+            xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
+            xlBooks = xlApp.Workbooks;
+            xlBook = xlBooks.Open(水利関係住所録WB);
+
+
+            ////シートを選択
+            var 宛名面 = xlBook.Sheets["宛名面"];
+
+
             //宛名面.Shapes(1).Name = "宛先郵便番号";
             //宛名面.Shapes(2).Name = "宛先住所";
             //宛名面.Shapes(3).Name = "宛先氏名1";
@@ -224,7 +241,39 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 宛名印刷(string 氏名, string 郵便番号, string 住所)
         {
-            初期化();
+
+            string 水利関係住所録WB = (@"C:\dropbox\住所録\水利関係住所録.xlsx");
+
+            dynamic xlApp;
+            dynamic xlBooks;
+            dynamic xlBook;
+
+            //住所録呼出
+            //xlApp = new Excel.Application();
+            xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
+            xlBooks = xlApp.Workbooks;
+            xlBook = xlBooks.Open(水利関係住所録WB);
+
+
+            ////シートを選択
+            var 宛名面 = xlBook.Sheets["宛名面"];
+
+            //初期化();
+
+            宛名面.Shapes(1).Name = "宛先郵便番号";
+            宛名面.Shapes(2).Name = "宛先住所";
+            宛名面.Shapes(3).Name = "宛先氏名1";
+            宛名面.Shapes(4).Name = "宛先氏名2";
+            宛名面.Shapes(5).Name = "差出人氏名";
+            宛名面.Shapes(6).Name = "差出人住所";
+
+            宛名面.Shapes("宛先郵便番号").TextFrame.Characters.Text = "";      //宛先郵便番号
+            宛名面.Shapes("宛先住所").TextFrame.Characters.Text = "";          //宛先住所
+            宛名面.Shapes("宛先氏名1").TextFrame.Characters.Text = "";         //宛先氏名1
+            宛名面.Shapes("宛先氏名2").TextFrame.Characters.Text = "";         //宛先氏名2
+            宛名面.Shapes("差出人氏名").TextFrame.Characters.Text = "";       //差出人氏名
+            宛名面.Shapes("差出人住所").TextFrame.Characters.Text = "";       //差出人住所
+
 
             //郵便番号がnullの場合、0000でnull合体演算をする
             string fourZeros = "000-0000";
@@ -284,14 +333,14 @@ namespace 口酒井農業水利組合郵送会員住所録
             }
 
 
-            //宛名面.Shapes("宛先郵便番号").TextFrame.Characters.Text = 郵便番号;                           //宛先郵便番号
-            //宛名面.Shapes("宛先住所").TextFrame.Characters.Text = 住所;                  //宛先住所
-            //宛名面.Shapes("宛先氏名1").TextFrame.Characters.Text = 氏名;                             //宛先氏名1
-            //宛名面.Shapes("宛先氏名2").TextFrame.Characters.Text = 氏名2;                                           //宛先氏名2
-            //宛名面.Shapes("差出人氏名").TextFrame.Characters.Text = 差出人氏名;                         //差出人氏名
-            //宛名面.Shapes("差出人住所").TextFrame.Characters.Text = 差出人住所;       //差出人住所
+            宛名面.Shapes("宛先郵便番号").TextFrame.Characters.Text = 郵便番号;                           //宛先郵便番号
+            宛名面.Shapes("宛先住所").TextFrame.Characters.Text = 住所;                  //宛先住所
+            宛名面.Shapes("宛先氏名1").TextFrame.Characters.Text = 氏名;                             //宛先氏名1
+            宛名面.Shapes("宛先氏名2").TextFrame.Characters.Text = 氏名2;                                           //宛先氏名2
+            宛名面.Shapes("差出人氏名").TextFrame.Characters.Text = 差出人氏名;                         //差出人氏名
+            宛名面.Shapes("差出人住所").TextFrame.Characters.Text = 差出人住所;       //差出人住所
 
-            //dynamic printOut = 宛名面.Range["A1:D32"].PrintOut;
+            dynamic printOut = 宛名面.Range["A1:D32"].PrintOut;
 
         }
 
