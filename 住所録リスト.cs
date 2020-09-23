@@ -335,82 +335,38 @@ namespace 口酒井農業水利組合郵送会員住所録
         {
             // 選択項目があるかどうかを確認する
             if (listView1.SelectedItems.Count == 0)
-                {
-                    // 選択項目がないので処理をせず抜ける
-                    MessageBox.Show("住所氏名を編集する方が選択されていません。");
-                    return;
-                }
-
-                fs = new 住所氏名編集Form();
-                fs.formMain = this;
-
-                ListViewItem itemx = listView1.SelectedItems[0];
-
-                string ID = itemx.SubItems[0].Text;
-                string 住所 = itemx.SubItems[1].Text;
-                string 郵便番号 = itemx.SubItems[2].Text;
-                string 氏名 = itemx.SubItems[3].Text;
-                string 分類 = itemx.SubItems[4].Text;
-
-                string[] 修正前データ = { ID, 住所, 郵便番号, 氏名, 分類};
-
-                fs.AddSet = 修正前データ;
-
-                //住所氏名変更Formを呼び出す
-                fs.ShowDialog();
-
-
-            if (Lvflag == "追加")
             {
-                //ListViewに一軒追加();
-                ListViewItem itemLast = new ListViewItem();
-
-                string[] 修正後データ = fs.AddSet;
-                itemLast.Text = 修正後データ[0];
-                itemLast.SubItems.Add(修正後データ[1]);
-                itemLast.SubItems.Add(修正後データ[2]);
-                itemLast.SubItems.Add(修正後データ[3]);
-                itemLast.SubItems.Add(修正後データ[4]);
-
-                listView1.Items.Add(itemLast);
-
-            }
-            else if (Lvflag == "修正")
-            {
-
-                string[] 修正後データ = fs.AddSet;
-                itemx.SubItems[0].Text = 修正後データ[0];
-                itemx.SubItems[1].Text = 修正後データ[1];
-                itemx.SubItems[2].Text = 修正後データ[2];
-                itemx.SubItems[3].Text = 修正後データ[3];
-                itemx.SubItems[4].Text = 修正後データ[4];
-
-            }
-            else if (Lvflag == "削除")
-            {
-                listView1.Items.Remove(itemx);
-                string[] 修正後データ = fs.AddSet;
-
+                // 選択項目がないので処理をせず抜ける
+                MessageBox.Show("住所氏名を編集する方が選択されていません。");
+                return;
             }
 
-            Lvflag = "";
+            fs = new 住所氏名編集Form();
+            fs.formMain = this;
+
+            ListViewItem itemx = listView1.SelectedItems[0];
+
+            string ID = itemx.SubItems[0].Text;
+            string 住所 = itemx.SubItems[1].Text;
+            string 郵便番号 = itemx.SubItems[2].Text;
+            string 氏名 = itemx.SubItems[3].Text;
+            string 分類 = itemx.SubItems[4].Text;
+
+            string[] 修正前データ = { ID, 住所, 郵便番号, 氏名, 分類};
+
+            fs.AddSet = 修正前データ;
+
+            //住所氏名変更Formを呼び出す
+            fs.ShowDialog();
+
+            ListView1呼出();
+
             fs.Close();
 
         }
 
         private string リストビュー更新;
 
-        public string Lvflag
-        {
-            set
-            {
-                リストビュー更新 = value;
-            }
-            get
-            {
-                return リストビュー更新;
-            }
-        }
 
         private void 住所録リストForm_FormClosing(object sender, FormClosingEventArgs e)
         {

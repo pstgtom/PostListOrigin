@@ -105,8 +105,6 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             MessageBox.Show("追加しました");
 
-            formMain.Lvflag = "追加";
-
             this.Close();
         }
 
@@ -139,7 +137,6 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             MessageBox.Show("修正しました");
  
-            formMain.Lvflag = "修正";
             this.Close();
 
         }
@@ -169,8 +166,6 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             transa.Commit();
             MessageBox.Show("削除しました");
-
-            formMain.Lvflag = "削除";
 
             this.Close();
 
