@@ -309,7 +309,8 @@ namespace 口酒井農業水利組合郵送会員住所録
             var transa = myCon.BeginTransaction();
 
             string SQLstr = "UPDATE sender SET 差出人氏名 = '" + 差出人氏名 + "'," +
-                                           　 "差出人住所 = '" + 差出人住所 + "'";
+                                           　 "差出人住所 = '" + 差出人住所 + "' " +
+                                              "WHERE id = 1";
 
 
             NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
@@ -325,7 +326,7 @@ namespace 口酒井農業水利組合郵送会員住所録
                     break;
             }
 
-
+            transa.Commit();
             MessageBox.Show("変更しました");
 
         }
