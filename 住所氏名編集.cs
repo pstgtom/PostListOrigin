@@ -33,6 +33,7 @@ namespace 口酒井農業水利組合郵送会員住所録
             分類combo.Items.Add("入作");
             分類combo.Items.Add("企業（振込）");
             分類combo.Items.Add("墓地管理");
+
             分類combo.Text = "入作";
         }
 
