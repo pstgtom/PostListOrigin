@@ -83,6 +83,16 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             ValuesAttach();
 
+            myCon.Open();
+
+            string SQLstr = "INSERT INTO owner(所有者,住所,郵便番号,区分id) " +
+                                    "VALUES ('" + Values[1] + "', '" + Values[3] + "', '" + Values[2] + "', " + 
+                                           " (SELECT id FROM trait WHERE 区分 = '" + Values[4] + "'))";
+
+            NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
+            command.ExecuteNonQuery();
+
+
             MessageBox.Show("追加しました");
 
             formMain.Lvflag = "追加";
@@ -94,24 +104,27 @@ namespace 口酒井農業水利組合郵送会員住所録
         private void 修正btn_Click(object sender, EventArgs e)
         {
 
-            //ValuesAttach();
+            ValuesAttach();
 
-            //        MessageBox.Show("修正しました");
-            //        break;
-            //    }
-            //}
+            myCon.Open();
+            string SQLstr = "UPDATE owner SET 所有者 ='" + Values[1] + " , " +
+                                             "住所 = '" + Values[3] + "', " + 
+                                             "郵便番号 = '" + Values[2] + ", " +
+                                             "区分id) = (SELECT id FROM trait WHERE 区分 = '" + Values[4] + "'))" +
+                                        "WHERE id = " + int.Parse(Values[0]); 
 
-            //formMain.Lvflag = "修正";
-            //this.Close();
+            NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
+            command.ExecuteNonQuery();
+
+            MessageBox.Show("修正しました");
+ 
+            formMain.Lvflag = "修正";
+            this.Close();
 
         }
 
         private void 削除btn_Click(object sender, EventArgs e)
         {
-            //ValuesAttach();
-
-
-
             //for (int i = 2; i <= values.GetLength(0); i++)
             //{
             //    double セル値 = (double)values[i, 1];
@@ -140,15 +153,19 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             //        口酒井名簿.range[i +":" + i].Delete(-4162);
 
-            //        ValuesAttach();
-            //        MessageBox.Show("削除しました");
-            //        break;
-            //    }
-            //}
+            ValuesAttach();
 
-            //formMain.Lvflag = "削除";
+            myCon.Open();
+            string SQLstr = "FELETE FROM owner WHERE id = " + int.Parse(Values[0]);
+            NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
+            command.ExecuteNonQuery();
 
-            //this.Close();
+
+            MessageBox.Show("削除しました");
+
+            formMain.Lvflag = "削除";
+
+            this.Close();
 
         }
 
