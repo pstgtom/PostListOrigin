@@ -402,6 +402,7 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             fs = new 住所氏名編集Form();
             fs.formMain = this;
+            fs.処理モード("追加");
 
             //住所氏名変更Formを呼び出す
             fs.ShowDialog();
@@ -424,6 +425,7 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             fs = new 住所氏名編集Form();
             fs.formMain = this;
+            fs.処理モード("修正");
 
             ListViewItem itemx = listView1.SelectedItems[0];
 
@@ -455,7 +457,6 @@ namespace 口酒井農業水利組合郵送会員住所録
                 return;
             }
 
-
             ListViewItem itemx = listView1.SelectedItems[0];
 
             string ID = itemx.SubItems[0].Text;
@@ -486,7 +487,6 @@ namespace 口酒井農業水利組合郵送会員住所録
                     break;
             }
 
-            transa.Commit();
             MessageBox.Show("削除しました");
 
             ListView1呼出();

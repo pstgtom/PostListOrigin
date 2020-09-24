@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,16 +18,27 @@ namespace 口酒井農業水利組合郵送会員住所録
         private string[] Values;
         public 住所録リストForm formMain;
         NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
-
+        private string _mode;
 
         public 住所氏名編集Form()
         {
             InitializeComponent();
             分類セット();
             ValuesAttach();
+        }
+ 
+        public void 処理モード(string 押下げボタン)
+        {
+            if (押下げボタン == "追加")
+            {
+                新規追加btn.Enabled = true;
+            }
+            else
+            {
+                新規追加btn.Enabled = false;
+            }
 
         }
-
 
         private void 分類セット()
         {
@@ -79,6 +91,8 @@ namespace 口酒井農業水利組合郵送会員住所録
                 MessageBox.Show("分類が選択されていません。");
                 return;
             }
+
+
 
             var ans = MessageBox.Show("新規に郵送メンバーを追加して良いですか？"
                                         ,"郵送メンバーの新規追加"
