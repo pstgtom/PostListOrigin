@@ -479,6 +479,7 @@ namespace 口酒井農業水利組合郵送会員住所録
                 , "削除"
                 , MessageBoxButtons.YesNo
                 , MessageBoxIcon.Question);
+
             switch (ans)
             {
                 case DialogResult.No:
@@ -487,6 +488,8 @@ namespace 口酒井農業水利組合郵送会員住所録
                     break;
             }
 
+            transa.Commit();
+            myCon.Close();
             MessageBox.Show("削除しました");
 
             ListView1呼出();
@@ -494,7 +497,6 @@ namespace 口酒井農業水利組合郵送会員住所録
         }
 
 
-        private string リストビュー更新;
 
 
         private void 住所録リストForm_FormClosing(object sender, FormClosingEventArgs e)
