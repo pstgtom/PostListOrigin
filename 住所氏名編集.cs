@@ -93,6 +93,22 @@ namespace 口酒井農業水利組合郵送会員住所録
             }
 
 
+            ValuesAttach();
+
+            myCon.Open();
+
+            string SQLstr = "SELECT 氏名, 住所, 郵便番号, 分類 FROM 郵送名簿 WHERE 氏名 = '" + Values[1] + "' AND 分類 = '" + Values[4] + "'";
+
+            NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
+            NpgsqlDataReader dr = command.ExecuteReader();
+
+            if (dr.HasRows == true)
+            {
+                MessageBox.Show(Values[1] + "(" + Values[4] + ") さんは既に登録されています。\n\n"
+                                    + "新規に追加する場合は今とは別の区分としてください。");
+                myCon.Close();
+                return;
+            }
 
             var ans = MessageBox.Show("新規に郵送メンバーを追加して良いですか？"
                                         ,"郵送メンバーの新規追加"
@@ -105,15 +121,15 @@ namespace 口酒井農業水利組合郵送会員住所録
                     break;
             }
 
-            ValuesAttach();
 
+            myCon.Close();
             myCon.Open();
 
-            string SQLstr = "INSERT INTO owner(所有者,住所,郵便番号,区分id) " +
+            SQLstr = "INSERT INTO owner(所有者,住所,郵便番号,区分id) " +
                                     "VALUES ('" + Values[1] + "', '" + Values[3] + "', '" + Values[2] + "', " + 
                                            " (SELECT id FROM trait WHERE 区分 = '" + Values[4] + "'))";
 
-            NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
+            command = new NpgsqlCommand(SQLstr, myCon);
             command.ExecuteNonQuery();
 
 
