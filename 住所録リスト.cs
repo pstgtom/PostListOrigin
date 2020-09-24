@@ -22,6 +22,9 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         //修正後のデータ受け取り配列変数
         住所氏名編集Form fs;
+
+        public Boolean リスト選択あり;
+
         NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
 
         public string 水利関係住所録WB = (@"C:\dropbox\住所録\水利関係住所録.xlsx");
@@ -111,6 +114,20 @@ namespace 口酒井農業水利組合郵送会員住所録
         }
 
 
+        private void リスト選択()
+        {
+            リスト選択あり = true;
+
+            // 選択項目があるかどうかを確認する
+            if (listView1.SelectedItems.Count == 0)
+            {
+                // 選択項目がないので処理をせず抜ける
+                リスト選択あり = false;
+                return;
+            }
+
+        }
+
         private void 全件印刷btn_Click(object sender, EventArgs e)
         {
             印刷対象選択("全件");
@@ -180,13 +197,21 @@ namespace 口酒井農業水利組合郵送会員住所録
         //一軒ずつ印刷
         private void 一軒印刷btn_Click(object sender, EventArgs e)
         {
-            // 選択項目があるかどうかを確認する
-            if (listView1.SelectedItems.Count == 0)
+            //// 選択項目があるかどうかを確認する
+            //if (listView1.SelectedItems.Count == 0)
+            //{
+            //    // 選択項目がないので処理をせず抜ける
+            //    MessageBox.Show("宛名印刷する方が選択されていません。");
+            //    return;
+            //}
+
+            リスト選択();
+            if (リスト選択あり == false)
             {
-                // 選択項目がないので処理をせず抜ける
                 MessageBox.Show("宛名印刷する方が選択されていません。");
                 return;
             }
+
 
             // 選択項目を取得する
             ListViewItem itemx = listView1.SelectedItems[0];
@@ -372,14 +397,28 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         }
 
+        private void 一軒追加btn_Click(object sender, EventArgs e)
+        {
+
+            fs = new 住所氏名編集Form();
+            fs.formMain = this;
+
+            //住所氏名変更Formを呼び出す
+            fs.ShowDialog();
+
+            ListView1呼出();
+
+            fs.Close();
+
+        }
+
 
         private void 一軒編集btn_Click(object sender, EventArgs e)
         {
-            // 選択項目があるかどうかを確認する
-            if (listView1.SelectedItems.Count == 0)
+            リスト選択();
+            if (リスト選択あり == false)
             {
-                // 選択項目がないので処理をせず抜ける
-                MessageBox.Show("住所氏名を編集する方が選択されていません。");
+                MessageBox.Show("編集するメンバーが選択されていません。");
                 return;
             }
 
@@ -407,6 +446,54 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         }
 
+        private void 一軒削除btn_Click(object sender, EventArgs e)
+        {
+            リスト選択();
+            if (リスト選択あり == false)
+            {
+                MessageBox.Show("削除するメンバーが選択されていません。");
+                return;
+            }
+
+
+            ListViewItem itemx = listView1.SelectedItems[0];
+
+            string ID = itemx.SubItems[0].Text;
+            string 住所 = itemx.SubItems[1].Text;
+            string 郵便番号 = itemx.SubItems[2].Text;
+            string 氏名 = itemx.SubItems[3].Text;
+            string 分類 = itemx.SubItems[4].Text;
+
+            myCon.Open();
+            var transa = myCon.BeginTransaction();
+
+            string SQLstr = "DELETE FROM owner WHERE id = " + ID;
+            NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
+            command.ExecuteNonQuery();
+
+            var ans = MessageBox.Show("ID： " + ID + "　" + 分類 + "\n" + "\n"
+                + 郵便番号 + "　" + 住所 + "\n"
+                + 氏名 + "\n"
+                + "さんを郵送リストから削除して良いですか？"
+                , "削除"
+                , MessageBoxButtons.YesNo
+                , MessageBoxIcon.Question);
+            switch (ans)
+            {
+                case DialogResult.No:
+                    MessageBox.Show("中止します。");
+                    transa.Rollback();
+                    break;
+            }
+
+            transa.Commit();
+            MessageBox.Show("削除しました");
+
+            ListView1呼出();
+
+        }
+
+
         private string リストビュー更新;
 
 
@@ -425,10 +512,13 @@ namespace 口酒井農業水利組合郵送会員住所録
         }
 
 
+
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             一軒編集btn_Click(sender, e);
         }
+
+
     }
 }
 

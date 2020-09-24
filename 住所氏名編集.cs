@@ -143,31 +143,31 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 削除btn_Click(object sender, EventArgs e)
         {
-            ValuesAttach();
+            //ValuesAttach();
 
-            myCon.Open();
-            var transa = myCon.BeginTransaction();
+            //myCon.Open();
+            //var transa = myCon.BeginTransaction();
 
-            string SQLstr = "DELETE FROM owner WHERE id = " + int.Parse(Values[0]);
-            NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
-            command.ExecuteNonQuery();
+            //string SQLstr = "DELETE FROM owner WHERE id = " + int.Parse(Values[0]);
+            //NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
+            //command.ExecuteNonQuery();
 
-            var ans = MessageBox.Show("削除して良いですか？"
-                , "修正"
-                , MessageBoxButtons.YesNo
-                , MessageBoxIcon.Question);
-            switch (ans)
-            {
-                case DialogResult.No:
-                    MessageBox.Show("中止します。");
-                    transa.Rollback();
-                    break;
-            }
+            //var ans = MessageBox.Show("削除して良いですか？"
+            //    , "修正"
+            //    , MessageBoxButtons.YesNo
+            //    , MessageBoxIcon.Question);
+            //switch (ans)
+            //{
+            //    case DialogResult.No:
+            //        MessageBox.Show("中止します。");
+            //        transa.Rollback();
+            //        break;
+            //}
 
-            transa.Commit();
-            MessageBox.Show("削除しました");
+            //transa.Commit();
+            //MessageBox.Show("削除しました");
 
-            this.Close();
+            //this.Close();
 
         }
 

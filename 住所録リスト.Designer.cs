@@ -39,6 +39,8 @@
             this.差出人住所Box = new System.Windows.Forms.TextBox();
             this.一軒印刷btn = new System.Windows.Forms.Button();
             this.一軒編集btn = new System.Windows.Forms.Button();
+            this.一軒追加btn = new System.Windows.Forms.Button();
+            this.一軒削除btn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listView1
@@ -54,7 +56,7 @@
             // 全件印刷btn
             // 
             this.全件印刷btn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.全件印刷btn.Location = new System.Drawing.Point(766, 28);
+            this.全件印刷btn.Location = new System.Drawing.Point(766, 25);
             this.全件印刷btn.Name = "全件印刷btn";
             this.全件印刷btn.Size = new System.Drawing.Size(100, 35);
             this.全件印刷btn.TabIndex = 1;
@@ -65,7 +67,7 @@
             // 入作関係btn
             // 
             this.入作関係btn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.入作関係btn.Location = new System.Drawing.Point(766, 81);
+            this.入作関係btn.Location = new System.Drawing.Point(766, 74);
             this.入作関係btn.Name = "入作関係btn";
             this.入作関係btn.Size = new System.Drawing.Size(100, 35);
             this.入作関係btn.TabIndex = 2;
@@ -76,7 +78,7 @@
             // 企業協力金btn
             // 
             this.企業協力金btn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.企業協力金btn.Location = new System.Drawing.Point(766, 134);
+            this.企業協力金btn.Location = new System.Drawing.Point(766, 123);
             this.企業協力金btn.Name = "企業協力金btn";
             this.企業協力金btn.Size = new System.Drawing.Size(100, 35);
             this.企業協力金btn.TabIndex = 3;
@@ -87,7 +89,7 @@
             // 墓地管理btn
             // 
             this.墓地管理btn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.墓地管理btn.Location = new System.Drawing.Point(766, 187);
+            this.墓地管理btn.Location = new System.Drawing.Point(766, 172);
             this.墓地管理btn.Name = "墓地管理btn";
             this.墓地管理btn.Size = new System.Drawing.Size(100, 35);
             this.墓地管理btn.TabIndex = 4;
@@ -125,7 +127,7 @@
             // 一軒印刷btn
             // 
             this.一軒印刷btn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.一軒印刷btn.Location = new System.Drawing.Point(766, 247);
+            this.一軒印刷btn.Location = new System.Drawing.Point(766, 221);
             this.一軒印刷btn.Name = "一軒印刷btn";
             this.一軒印刷btn.Size = new System.Drawing.Size(100, 35);
             this.一軒印刷btn.TabIndex = 11;
@@ -136,7 +138,7 @@
             // 一軒編集btn
             // 
             this.一軒編集btn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.一軒編集btn.Location = new System.Drawing.Point(766, 305);
+            this.一軒編集btn.Location = new System.Drawing.Point(766, 319);
             this.一軒編集btn.Name = "一軒編集btn";
             this.一軒編集btn.Size = new System.Drawing.Size(100, 35);
             this.一軒編集btn.TabIndex = 12;
@@ -144,12 +146,36 @@
             this.一軒編集btn.UseVisualStyleBackColor = true;
             this.一軒編集btn.Click += new System.EventHandler(this.一軒編集btn_Click);
             // 
+            // 一軒追加btn
+            // 
+            this.一軒追加btn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.一軒追加btn.Location = new System.Drawing.Point(766, 270);
+            this.一軒追加btn.Name = "一軒追加btn";
+            this.一軒追加btn.Size = new System.Drawing.Size(100, 35);
+            this.一軒追加btn.TabIndex = 13;
+            this.一軒追加btn.Text = "一軒追加";
+            this.一軒追加btn.UseVisualStyleBackColor = true;
+            this.一軒追加btn.Click += new System.EventHandler(this.一軒追加btn_Click);
+            // 
+            // 一軒削除btn
+            // 
+            this.一軒削除btn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.一軒削除btn.Location = new System.Drawing.Point(766, 368);
+            this.一軒削除btn.Name = "一軒削除btn";
+            this.一軒削除btn.Size = new System.Drawing.Size(100, 35);
+            this.一軒削除btn.TabIndex = 14;
+            this.一軒削除btn.Text = "一軒削除";
+            this.一軒削除btn.UseVisualStyleBackColor = true;
+            this.一軒削除btn.Click += new System.EventHandler(this.一軒削除btn_Click);
+            // 
             // 住所録リストForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(890, 591);
+            this.Controls.Add(this.一軒削除btn);
+            this.Controls.Add(this.一軒追加btn);
             this.Controls.Add(this.一軒編集btn);
             this.Controls.Add(this.一軒印刷btn);
             this.Controls.Add(this.差出人住所Box);
@@ -183,6 +209,8 @@
         private System.Windows.Forms.TextBox 差出人住所Box;
         private System.Windows.Forms.Button 一軒印刷btn;
         private System.Windows.Forms.Button 一軒編集btn;
+        private System.Windows.Forms.Button 一軒追加btn;
+        private System.Windows.Forms.Button 一軒削除btn;
     }
 }
 
