@@ -155,6 +155,9 @@ namespace 口酒井農業水利組合郵送会員住所録
                 NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
                 NpgsqlDataReader dr = command.ExecuteReader();
 
+                住所録呼出();
+                初期化();
+                
                 while (dr.Read())
                 {
                     氏名 = dr[0].ToString();
@@ -163,6 +166,8 @@ namespace 口酒井農業水利組合郵送会員住所録
 
                     宛名印刷(氏名, 郵便番号, 住所);
                 }
+
+                住所録閉じる();
 
             }
             finally {
@@ -199,10 +204,35 @@ namespace 口酒井農業水利組合郵送会員住所録
                     MessageBox.Show("一軒印刷を中止します。");
                     break;
                 case DialogResult.Yes:
+                    住所録呼出();
                     初期化();
                     宛名印刷(itemx.SubItems[1].Text, itemx.SubItems[2].Text, itemx.SubItems[3].Text);
+                    住所録閉じる();
                     break;
             }
+        }
+
+        private void 住所録呼出()
+        {
+            //住所録呼出
+            xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
+            xlBooks = xlApp.Workbooks;
+            xlBook = xlBooks.Open(水利関係住所録WB);
+        }
+
+        private void 住所録閉じる()
+        {
+            //Excelのクローズ
+            xlBook.Saved = true;
+            xlBook.Close();
+            xlBooks.Close();
+            xlApp.Quit();
+
+            //// 使用したCOMオブジェクトを解放その２
+            System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlBook);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlBooks);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlApp);
+
         }
 
 
@@ -233,16 +263,16 @@ namespace 口酒井農業水利組合郵送会員住所録
         private void 宛名印刷(string 氏名, string 郵便番号, string 住所)
         {
 
-            //住所録呼出
-            xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
-            xlBooks = xlApp.Workbooks;
-            xlBook = xlBooks.Open(水利関係住所録WB);
+            //住所録呼出();
+            //xlApp = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application"));
+            //xlBooks = xlApp.Workbooks;
+            //xlBook = xlBooks.Open(水利関係住所録WB);
 
 
             ////シートを選択
             var 宛名面 = xlBook.Sheets["宛名面"];
 
-            初期化();
+            //初期化();
             //宛名面.Shapes(1).Name = "宛先郵便番号";
             //宛名面.Shapes(2).Name = "宛先住所";
             //宛名面.Shapes(3).Name = "宛先氏名1";
@@ -257,9 +287,7 @@ namespace 口酒井農業水利組合郵送会員住所録
             //宛名面.Shapes("宛先氏名2").TextFrame.Characters.Text = "";         //宛先氏名2
             //宛名面.Shapes("差出人氏名").TextFrame.Characters.Text = "";       //差出人氏名
             //宛名面.Shapes("差出人住所").TextFrame.Characters.Text = "";       //差出人住所
-            
-            try
-            {
+
 
             //郵便番号がnullの場合、0000でnull合体演算をする
             string fourZeros = "000-0000";
@@ -327,21 +355,6 @@ namespace 口酒井農業水利組合郵送会員住所録
             宛名面.Shapes("差出人住所").TextFrame.Characters.Text = 差出人住所;       //差出人住所
 
             dynamic printOut = 宛名面.Range["A1:D32"].PrintOut;
-            }
-            finally
-            {
-                //Excelのクローズ
-                xlBook.Saved = true;
-                xlBook.Close();
-                xlBooks.Close();
-                xlApp.Quit();
-
-                //// 使用したCOMオブジェクトを解放その２
-                System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlBook);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlBooks);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject((object)xlApp);
-
-            }
 
         }
 
