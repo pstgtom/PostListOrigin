@@ -25,7 +25,8 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         public Boolean リスト選択あり;
 
-        NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
+        //NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
+        NpgsqlConnection myCon = new NpgsqlConnection("Server=localhost;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
 
         public string 水利関係住所録WB = (@"C:\dropbox\住所録\水利関係住所録.xlsx");
         public dynamic xlApp;
@@ -36,6 +37,7 @@ namespace 口酒井農業水利組合郵送会員住所録
         {
             InitializeComponent();
         }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {

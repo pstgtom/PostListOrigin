@@ -17,8 +17,10 @@ namespace 口酒井農業水利組合郵送会員住所録
     {
         private string[] Values;
         public 住所録リストForm formMain;
-        NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
         private string _mode;
+
+        //NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
+        NpgsqlConnection myCon = new NpgsqlConnection("Server=localhost;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
 
         public 住所氏名編集Form()
         {
@@ -26,7 +28,8 @@ namespace 口酒井農業水利組合郵送会員住所録
             分類セット();
             ValuesAttach();
         }
- 
+
+
         public void 処理モード(string 押下げボタン)
         {
             if (押下げボタン == "追加")
@@ -83,6 +86,21 @@ namespace 口酒井農業水利組合郵送会員住所録
         private void 住所氏名編集_Load(object sender, EventArgs e)
         {
         }
+
+
+        private void クリアbtn_Click(object sender, EventArgs e)
+        {
+            this.IDBox.Text = "";
+            this.氏名Box.Text = "";
+            this.郵便番号Box.Text = "";
+            this.住所Box.Text = "";
+            this.分類combo.Text = "";
+
+            this.新規追加btn.Enabled = true;
+
+        }
+
+
 
         private void 新規追加btn_Click(object sender, EventArgs e)
         {
@@ -204,7 +222,6 @@ namespace 口酒井農業水利組合郵送会員住所録
         private void 住所氏名編集Form_FormClosing(object sender, FormClosingEventArgs e)
         {
         }
-
 
     }
 }

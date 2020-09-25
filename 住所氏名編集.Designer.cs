@@ -42,6 +42,7 @@
             this.削除btn = new System.Windows.Forms.Button();
             this.分類lbl = new System.Windows.Forms.Label();
             this.分類combo = new System.Windows.Forms.ComboBox();
+            this.クリアbtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // 氏名Box
@@ -83,9 +84,9 @@
             // 修正btn
             // 
             this.修正btn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.修正btn.Location = new System.Drawing.Point(159, 123);
+            this.修正btn.Location = new System.Drawing.Point(222, 123);
             this.修正btn.Name = "修正btn";
-            this.修正btn.Size = new System.Drawing.Size(108, 45);
+            this.修正btn.Size = new System.Drawing.Size(80, 45);
             this.修正btn.TabIndex = 3;
             this.修正btn.Text = "修　　正";
             this.修正btn.UseVisualStyleBackColor = true;
@@ -132,9 +133,9 @@
             // 新規追加btn
             // 
             this.新規追加btn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.新規追加btn.Location = new System.Drawing.Point(19, 123);
+            this.新規追加btn.Location = new System.Drawing.Point(118, 123);
             this.新規追加btn.Name = "新規追加btn";
-            this.新規追加btn.Size = new System.Drawing.Size(108, 45);
+            this.新規追加btn.Size = new System.Drawing.Size(80, 45);
             this.新規追加btn.TabIndex = 9;
             this.新規追加btn.Text = "新規追加";
             this.新規追加btn.UseVisualStyleBackColor = true;
@@ -143,9 +144,9 @@
             // 削除btn
             // 
             this.削除btn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.削除btn.Location = new System.Drawing.Point(296, 123);
+            this.削除btn.Location = new System.Drawing.Point(326, 123);
             this.削除btn.Name = "削除btn";
-            this.削除btn.Size = new System.Drawing.Size(108, 45);
+            this.削除btn.Size = new System.Drawing.Size(80, 45);
             this.削除btn.TabIndex = 10;
             this.削除btn.Text = "削　　除";
             this.削除btn.UseVisualStyleBackColor = true;
@@ -169,11 +170,24 @@
             this.分類combo.Size = new System.Drawing.Size(104, 20);
             this.分類combo.TabIndex = 13;
             // 
+            // クリアbtn
+            // 
+            this.クリアbtn.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.クリアbtn.Location = new System.Drawing.Point(14, 123);
+            this.クリアbtn.Name = "クリアbtn";
+            this.クリアbtn.Size = new System.Drawing.Size(80, 45);
+            this.クリアbtn.TabIndex = 14;
+            this.クリアbtn.Text = "ク リ ア";
+            this.クリアbtn.UseVisualStyleBackColor = true;
+            this.クリアbtn.Click += new System.EventHandler(this.クリアbtn_Click);
+            // 
             // 住所氏名編集Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(416, 179);
+            this.Controls.Add(this.クリアbtn);
             this.Controls.Add(this.分類combo);
             this.Controls.Add(this.分類lbl);
             this.Controls.Add(this.削除btn);
@@ -211,5 +225,6 @@
         private System.Windows.Forms.Button 削除btn;
         private System.Windows.Forms.Label 分類lbl;
         private System.Windows.Forms.ComboBox 分類combo;
+        private System.Windows.Forms.Button クリアbtn;
     }
 }
