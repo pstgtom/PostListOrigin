@@ -19,8 +19,8 @@ namespace 口酒井農業水利組合郵送会員住所録
         public 住所録リストForm formMain;
         private string _mode;
 
-        //NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
-        NpgsqlConnection myCon = new NpgsqlConnection("Server=localhost;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
+        NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
+        //NpgsqlConnection myCon = new NpgsqlConnection("Server=localhost;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
 
         public 住所氏名編集Form()
         {
