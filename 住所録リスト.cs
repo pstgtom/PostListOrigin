@@ -24,6 +24,7 @@ namespace 口酒井農業水利組合郵送会員住所録
         住所氏名編集Form fs;
 
         public Boolean リスト選択あり;
+        public string マシン名;
         public string サーバ;
 
         public string 水利関係住所録WB = (@"C:\dropbox\住所録\水利関係住所録.xlsx");
@@ -45,7 +46,7 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         public void 接続文字列設定()
         {
-            string マシン名 = GetLocalMachineName();
+            マシン名 = GetLocalMachineName();
 
             if (マシン名 == "ATHLETE")
             {
@@ -60,7 +61,9 @@ namespace 口酒井農業水利組合郵送会員住所録
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            Text = "郵送住所録フォーム　" + "Ver.1.02" + "　　　　　　　定型長３封筒に印刷してください。";
+            this.Text = "郵送住所録フォーム　" + "Ver.1.00" 
+                        + "　　　　　　　　定型長３封筒に印刷してください。"
+                        + "  　　　　　　　マシン名：" + マシン名 + "／サーバ：" + サーバ;
 
             ListView1呼出();
 
