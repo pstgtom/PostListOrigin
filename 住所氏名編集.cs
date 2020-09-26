@@ -18,15 +18,39 @@ namespace 口酒井農業水利組合郵送会員住所録
         private string[] Values;
         public 住所録リストForm formMain;
         private string _mode;
+        public string マシン名;
         public string サーバ;
+        public string DB;
 
         public 住所氏名編集Form()
         {
             InitializeComponent();
             分類セット();
             ValuesAttach();
-            formMain.接続文字列設定();
+            接続文字列設定();
         }
+
+        public string GetLocalMachineName()
+        {
+            return Environment.MachineName;
+        }
+
+        public void 接続文字列設定()
+        {
+            マシン名 = GetLocalMachineName();
+
+            if (マシン名 == "ATHLETE")
+            {
+                サーバ = "fertila";
+                DB = "test9meidb";
+            }
+            else if (マシン名 == "kuchisakaiPC")
+            {
+                サーバ = "localhost";
+                DB = "9meidb";
+            }
+        }
+
 
         public void 処理モード(string 押下げボタン)
         {
@@ -111,7 +135,7 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             ValuesAttach();
 
-            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
+            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=" + DB + ";");
             myCon.Open();
 
             string SQLstr = "SELECT 氏名, 住所, 郵便番号, 分類 FROM 郵送名簿 WHERE 氏名 = '" + Values[1] + "' AND 分類 = '" + Values[4] + "'";
@@ -172,7 +196,7 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             ValuesAttach();
 
-            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
+            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=" + DB + ";");
             myCon.Open();
             string SQLstr = "UPDATE owner SET 所有者 ='" + Values[1] + "', " +
                                              "住所 = '" + Values[3] + "', " + 
@@ -191,31 +215,32 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         private void 削除btn_Click(object sender, EventArgs e)
         {
-            //ValuesAttach();
+            ValuesAttach();
 
-            //myCon.Open();
-            //var transa = myCon.BeginTransaction();
+            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=" + DB + ";");
+            myCon.Open();
+            var transa = myCon.BeginTransaction();
 
-            //string SQLstr = "DELETE FROM owner WHERE id = " + int.Parse(Values[0]);
-            //NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
-            //command.ExecuteNonQuery();
+            string SQLstr = "DELETE FROM owner WHERE id = " + int.Parse(Values[0]);
+            NpgsqlCommand command = new NpgsqlCommand(SQLstr, myCon);
+            command.ExecuteNonQuery();
 
-            //var ans = MessageBox.Show("削除して良いですか？"
-            //    , "修正"
-            //    , MessageBoxButtons.YesNo
-            //    , MessageBoxIcon.Question);
-            //switch (ans)
-            //{
-            //    case DialogResult.No:
-            //        MessageBox.Show("中止します。");
-            //        transa.Rollback();
-            //        break;
-            //}
+            var ans = MessageBox.Show("削除して良いですか？"
+                , "削除"
+                , MessageBoxButtons.YesNo
+                , MessageBoxIcon.Question);
+            switch (ans)
+            {
+                case DialogResult.No:
+                    MessageBox.Show("中止します。");
+                    transa.Rollback();
+                    break;
+            }
 
-            //transa.Commit();
-            //MessageBox.Show("削除しました");
+            transa.Commit();
+            MessageBox.Show("削除しました");
 
-            //this.Close();
+            this.Close();
 
         }
 
