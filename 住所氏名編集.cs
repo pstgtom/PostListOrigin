@@ -18,8 +18,10 @@ namespace 口酒井農業水利組合郵送会員住所録
         private string[] Values;
         public 住所録リストForm formMain;
         private string _mode;
+        public string サーバ;
 
-        NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
+
+        //NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
         //NpgsqlConnection myCon = new NpgsqlConnection("Server=localhost;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
 
         public 住所氏名編集Form()
@@ -27,8 +29,8 @@ namespace 口酒井農業水利組合郵送会員住所録
             InitializeComponent();
             分類セット();
             ValuesAttach();
+            formMain.接続文字列設定();
         }
-
 
         public void 処理モード(string 押下げボタン)
         {
@@ -113,6 +115,7 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             ValuesAttach();
 
+            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
             myCon.Open();
 
             string SQLstr = "SELECT 氏名, 住所, 郵便番号, 分類 FROM 郵送名簿 WHERE 氏名 = '" + Values[1] + "' AND 分類 = '" + Values[4] + "'";
@@ -173,6 +176,7 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             ValuesAttach();
 
+            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
             myCon.Open();
             string SQLstr = "UPDATE owner SET 所有者 ='" + Values[1] + "', " +
                                              "住所 = '" + Values[3] + "', " + 

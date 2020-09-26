@@ -25,7 +25,9 @@ namespace 口酒井農業水利組合郵送会員住所録
 
         public Boolean リスト選択あり;
 
-        NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
+        public string サーバ;
+
+        //NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
         //NpgsqlConnection myCon = new NpgsqlConnection("Server=localhost;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
 
         public string 水利関係住所録WB = (@"C:\dropbox\住所録\水利関係住所録.xlsx");
@@ -36,8 +38,28 @@ namespace 口酒井農業水利組合郵送会員住所録
         public 住所録リストForm()
         {
             InitializeComponent();
+            接続文字列設定();
         }
 
+
+        public string GetLocalMachineName()
+        {
+            return Environment.MachineName;
+        }
+
+        public void 接続文字列設定()
+        {
+            string マシン名 = GetLocalMachineName();
+
+            if (マシン名 == "ATHLETE")
+            {
+                サーバ = "fertila";
+            }
+            else if (マシン名 == "kuchisakaiPC")
+            {
+                サーバ = "localhost";
+            }
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -46,6 +68,7 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             ListView1呼出();
 
+            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
             //NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchsakai;Pwd=9mei5jikai#;Database=test9meidb");
             myCon.Open();
             string SQLstr = "SELECT 差出人氏名, 差出人住所 FROM sender";
@@ -91,6 +114,7 @@ namespace 口酒井農業水利組合郵送会員住所録
 
             ListViewItem lvi;
 
+            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
             myCon.Open();
 
             try
@@ -158,6 +182,7 @@ namespace 口酒井農業水利組合郵送会員住所録
         {
             string 氏名, 郵便番号, 住所, SQLstr;
 
+            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
             myCon.Open();
 
             try
@@ -373,6 +398,7 @@ namespace 口酒井農業水利組合郵送会員住所録
             差出人氏名 = 差出人Box.Text;
             差出人住所 = 差出人住所Box.Text;
 
+            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
             myCon.Open();
             var transa = myCon.BeginTransaction();
 
@@ -467,6 +493,7 @@ namespace 口酒井農業水利組合郵送会員住所録
             string 氏名 = itemx.SubItems[3].Text;
             string 分類 = itemx.SubItems[4].Text;
 
+            NpgsqlConnection myCon = new NpgsqlConnection("Server=" + サーバ + ";Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
             myCon.Open();
             var transa = myCon.BeginTransaction();
 
