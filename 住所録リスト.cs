@@ -24,11 +24,7 @@ namespace 口酒井農業水利組合郵送会員住所録
         住所氏名編集Form fs;
 
         public Boolean リスト選択あり;
-
         public string サーバ;
-
-        //NpgsqlConnection myCon = new NpgsqlConnection("Server=fertila;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
-        //NpgsqlConnection myCon = new NpgsqlConnection("Server=localhost;Port=5432;Uid=kuchisakai;Pwd=9mei5jikai#;Database=test9meidb;");
 
         public string 水利関係住所録WB = (@"C:\dropbox\住所録\水利関係住所録.xlsx");
         public dynamic xlApp;
